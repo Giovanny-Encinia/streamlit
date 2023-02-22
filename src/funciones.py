@@ -38,6 +38,30 @@ def search_keywords(df: pd.DataFrame, keywords: list) -> pd.DataFrame:
         The filtered DataFrame containing only the rows where the 'PUR_PO_TEXT'
         column contains at least one of the keywords.
     """
+    print(df.columns)
     mask = df['PUR_PO_TEXT'].str.contains('|'.join(keywords))
     return df[mask]
 
+def search_maximum_cost(df: pd.DataFrame, columns: str="PUR_AMOUNT_USD", n: int=15) -> pd.DataFrame:
+    """
+        Return the first `top` rows ordered by `columns` in descending order.
+        Return the first `top` rows with the largest values in `columns`, in
+        descending order. The columns that are not specified are returned as
+        well, but not used for ordering.
+        This method is equivalent to
+        ``df.sort_values(columns, ascending=False).head(n)``, but more
+        performant.
+
+        Parameters
+        ----------
+        n : int
+            Number of rows to return.
+        columns : label or list of labels
+            Column label(s) to order by.
+        Returns
+        -------
+        DataFrame
+            The first `n` rows ordered by the given columns in descending
+            order.
+        """
+    return df.nlargest(n, "PUR_AMOUNT_USD")
