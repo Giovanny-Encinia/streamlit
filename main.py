@@ -8,9 +8,10 @@ from src.queries.select import DUMMY_QUERY, QUERY_RECORD_INFERENCE, QUERY_RECORD
 from src.on_click_functions.buttons import next, previous
 import datetime
 import pandas as pd
+from src.pages_custom.base_page import base
 
 # READ JSON file
-LABELS = read_load_json('src/json/labels.json')
+ss["LABELS"] = read_load_json('src/json/labels.json')
 bearings_keywords = read_load_json("src/json/bearings_keywords.json")
 # st.write(load_data(QUERY_RECORD).columns)
 c, cc, ccc = st.columns([2, 2, 5])
@@ -24,7 +25,7 @@ with ccc:
     st.image(imagen)
 
 st.title("Procurement Labeling Tool Cemex")
-COLUMNS_FRONTEND = ["PUR_PO_TEXT", "LABEL", "CONFIDENCE", "PUR_COUNTRY", "PUR_VENDOR_NAME", "PUR_PO_UOM"]
+ss["COLUMNS_FRONTEND"] = ["PUR_PO_TEXT", "LABEL", "CONFIDENCE", "PUR_COUNTRY", "PUR_VENDOR_NAME", "PUR_PO_UOM"]
 
 if "last_index" not in ss:
     ss["last_index"] = 0
@@ -36,7 +37,7 @@ if "counter" not in ss:
 with st.sidebar.form("Input"):
     now = datetime.datetime.now()
     two_weeks_ago= now - datetime.timedelta(weeks=2)
-    label_option = set(LABELS.keys()).union(LABELS["SERVICIOS"].keys())
+    label_option = set(ss.LABELS.keys()).union(ss.LABELS["SERVICIOS"].keys())
     ss["option"] = st.selectbox("Which database do you want to validate?", label_option)
     ss["start_date"] = st.date_input("Select begin date", two_weeks_ago)
     ss["start_date"] = ss.start_date.strftime("%Y-%m-%d")
@@ -69,12 +70,15 @@ with st.sidebar.form("Input"):
             st.warning("No result, there is not data")
 
 
-with st.container():   
+with st.container():
+    selectbox_label = "What type of filter do you want to apply"
+    type_filter = ["Keywords", "Max Cost", "Threshold", "All data"]
+    select_box_option = st.selectbox(selectbox_label, type_filter)  
     col1, col2, col3 = st.columns(3)
 
     # there exist the posibility that the query is void
     if "dataframe" not in ss or ss["last_index"] <= 0:
-        ss["dataframe"] = pd.DataFrame([], COLUMNS_FRONTEND)
+        ss["dataframe"] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
         st.dataframe(ss.dataframe,  use_container_width=True)
     elif "dataframe" in ss:
         ss["last_index"] = ss.dataframe.shape[0] - 1
@@ -85,14 +89,14 @@ with st.container():
         if ss.counter > 0:
             col1.button("Previous", on_click=previous) 
 
-        st.dataframe(ss.dataframe.iloc[ss.counter].loc[COLUMNS_FRONTEND],  use_container_width=True)
+        st.dataframe(ss.dataframe.iloc[ss.counter].loc[ss.COLUMNS_FRONTEND],  use_container_width=True)
         check = st.radio("Label:", ('Correct', 'Incorrect'))
 
         if check == "Incorrect":
-            tree = LABELS
+            tree = ss.LABELS
 
             if ss.option not in  ["BEARINGS AND ACCESORIES", "DIESEL"]:
-                tree = LABELS["SERVICIOS"]
+                tree = ss.LABELS["SERVICIOS"]
             
             paths =  find_paths(tree, ss.option)
             level_labels = [">".join(path) for path in paths]
@@ -113,5 +117,15 @@ with st.container():
 
 
 # st.write(fn.azar(ss.dataframe, "CONFIDENCE"))
-        st.write(bearings_keywords["KEYWORDS"])
+        # st.write(bearings_keywords["KEYWORDS"])
         st.write(search_keywords(ss.dataframe, bearings_keywords["KEYWORDS"]))
+
+if select_box_option == "Max Cost":
+    page1 = base("pagina1")
+    page1.create_top()
+    page1.get_dataframe(search_keywords(ss.dataframe, bearings_keywords["KEYWORDS"]))
+
+    with st.container():
+        page1.main_content()
+
+    st.write("SIIIIIIIIII!!!")
