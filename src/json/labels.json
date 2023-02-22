@@ -1,0 +1,1047 @@
+{   "DIESEL": {
+    "DIESEL": null,
+    "COMBUSTIBLE": null
+
+},
+"BEARINGS AND ACCESORIES": {
+    "Pillow Block Take Up": null,
+    "Cup Bearing": null, 
+    "Rod End" : null,
+    "Nut Bearing Lock": null,
+    "Thrust": null,
+    "Ring Locking": null,
+    "Pillow Block": null,
+    "Frame Take Up": null,
+    "Track Roller Mixer Bin": null,
+    "Cone Bearing": null,
+    "Sleeve Bearing": null,
+    "Seal Grease": null,
+    "Shaft Cardan": null,
+    "Split Bearing": null,
+    "Race Bearing": null,
+    "Flange Block": null,
+    "Housing Pillow Block": null,
+    "Housing Flange Block": null,
+    "Cage Bearing": null,
+    "Hanger Bearing": null
+},
+"SERVICIOS": {
+    "ALQUILERES": {
+        "ALQUILER TRANSVERSAL": {
+            "BAÑO": {
+                "OTROS": null
+            },
+            "FOTOGRAFIA": {
+                "OTROS": null
+            },
+            "HARDWARE": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "ALQUILERES OPERATIVOS": {
+            "AMPLIFICADOR": {
+                "OTROS": null
+            },
+            "ANTORCHA": {
+                "OTROS": null
+            },
+            "CARPA": {
+                "OTROS": null
+            },
+            "DROM": {
+                "OTROS": null
+            },
+            "EMPAQUES": {
+                "OTROS": null
+            },
+            "GALERA": {
+                "OTROS": null
+            },
+            "GUINDOLA": {
+                "OTROS": null
+            },
+            "HORNO": {
+                "OTROS": null
+            },
+            "INTERCAMBIADOR DE CALOR": {
+                "OTROS": null
+            },
+            "PLANTA": {
+                "OTROS": null
+            },
+            "PUERTAS": {
+                "OTROS": null
+            },
+            "RECIPIENTE": {
+                "OTROS": null
+            },
+            "SNORKEL": {
+                "OTROS": null
+            },
+            "TOLDO": {
+                "OTROS": null
+            },
+            "LAVAMANOS PORTATIL": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "EQUIPO DE OFICINA": {
+            "BEBEDERO DE AGUA": {
+                "OTROS": null
+            },
+            "COMPUTADORES": {
+                "OTROS": null
+            },
+            "DISPENSADOR": {
+                "OTROS": null
+            },
+            "IMPRESORA": {
+                "IMPRESORA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "MANTEL": {
+                "OTROS": null
+            },
+            "MANTELES": {
+                "OTROS": null
+            },
+            "MAQUINA DE AGUA": {
+                "OTROS": null
+            },
+            "MESAS/SILLAS": {
+                "OTROS": null
+            },
+            "PANTALLA": {
+                "OTROS": null
+            },
+            "PROYECTORES": {
+                "OTROS": null
+            },
+            "PURIFICADOR DE AGUA": {
+                "OTROS": null
+            },
+            "PURIFICADORES": {
+                "OTROS": null
+            },
+            "SCANNER": {
+                "OTROS": null
+            },
+            "SILLAS": {
+                "SILLAS": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "TV": {
+                "OTROS": null
+            },
+            "TABLET": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "INMUEBLES": {
+            "ADMINISTRATIVO": {
+                "AUDITORIO": {
+                    "OTROS": null
+                },
+                "HOSPEDAJE": {
+                    "OTROS": null
+                },
+                "LOCAL": {
+                    "OTROS": null
+                },
+                "MUEBLES": {
+                    "OTROS": null
+                },
+                "OFICINA": {
+                    "OTROS": null
+                },
+                "PARQUEADERO": {
+                    "OTROS": null
+                },
+                "SALON": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "OPERATIVO": {
+                "ALMACEN": {
+                    "OTROS": null
+                },
+                "BODEGA": {
+                    "OTROS": null
+                },
+                "BOTADERO": {
+                    "OTROS": null
+                },
+                "CENTRO DE DISTRIBUCION": {
+                    "OTROS": null
+                },
+                "DOMO": {
+                    "OTROS": null
+                },
+                "MINA": {
+                    "OTROS": null
+                },
+                "MINA DE YESO": {
+                    "OTROS": null
+                },
+                "TERRENO": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "OTROS": {
+            "CONTENEDORES": {
+                "CONTENEDORES": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "FUENTE DE AGUA": {
+                "OTROS": null
+            },
+            "MENAJE": {
+                "OTROS": null
+            },
+            "PLAYER": {
+                "OTROS": null
+            },
+            "RPD": {
+                "OTROS": null
+            },
+            "SNORKEL": {
+                "OTROS": null
+            },
+            "RENTAMENSUAL": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "REPUESTOS MATERIALES Y HERRAMIENTAS": {
+            "ELECTRICOS": {
+                "GENERADOR": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "OTROS": {
+            "OTROS": null
+            }
+        }
+    },
+    "SERVICIOS": {
+        "GENERALES": {
+            "ALIMENTACION": {
+                "ALIMENTACION": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "HEADRENTAL": {
+                "HEADRENTAL": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "JARDINERIA": {
+                "JARDINERIA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "LIMPIEZA": {
+                "AUTOMOVIL": {
+                    "AUTOMOVIL": {
+                        "OTROS": null
+                    },
+                    "OTROS": {
+                        "OTROS": null
+                    }
+                },
+                "LAVADO EQUIPO": {
+                    "LAVADO EQUIPO": {
+                        "OTROS": null
+                    },
+                    "OTROS": {
+                        "OTROS": null
+                    }
+                },
+                "LIMPIEZA": {
+                    "OTROS": null
+                },
+                "SERVICIO LIMPIEZA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "PERITRAJE": {
+                "PERITRAJE": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "REPARACIONES Y CAMBIOS": {
+                "REPARACIONES Y CAMBIOS": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "SERVICIO DE AGUA": {
+                "OTROS": null
+            },
+            "SERVICIO PINTURA": {
+                "SERVICIO PINTURA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "SOAT": {
+                "SOAT": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "OPERATIVO": {
+            "ANALISIS AGUA": {
+                "ANALISIS AGUA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "CARPEYCOTEO": {
+                "CARPEYCOTEO": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "ENSAMBLAJE": {
+                "ENSAMBLAJE": {
+                    "OTROS": null
+                }
+            },
+            "FRECUENCIA": {
+                "FRECUENCIA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "MANTENIMIENTO": {
+                "MANTENIMIENTO": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "REMODELACIÓN": {
+                "REMODELACION": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "REVISION TECNICO MECANICA": {
+                "REVISION TECNICO MECANICA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "REEMPLAZO DE REFRACTARIO": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "PORTUARIOS": {
+            "OTROS": null
+        },
+        "RENTING": {
+            "OTROS": null
+        },
+        "RETAILSTORE": {
+            "OTROS": null
+        },
+        "TECNICO": {
+            "OTROS": null
+        },
+        "TECNOLOGICOS": {
+            "HARDWARE": {
+                "HARDWARE": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "INTERNET": {
+                "OTROS": null
+            },
+            "SOFTWARE": {
+                "SOFTWARE": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "TRANSPORTE": {
+            "ESCOMBROS": {
+                "ESCOMBROS": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "TRANSPORTE DESECHOS": {
+                "TRANSPORTE DESECHOS": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "TRANSPORTE PERSONAL": {
+                "TRANSPORTE PERSONAL": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "ADMINISTRATIVO": {
+            "ASESORIAS": {
+                "ASESORIAS": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "ELEBORACIÓN DE MANDA": {
+                "ELEBORACIÓN DE MANDA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "PUBLICIDAD": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "OTROS": {
+            "OTROS": null
+        }
+    },
+    "MAQUINARIA Y EQUIPO": {
+        "ELECTRICOS": {
+            "GENERADOR": {
+                "OTROS": null
+            },
+            "ILUMINACIÓN": {
+                "TORRE DE LUZ": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "PLANTA ELECTRICA": {
+                "OTROS": null
+            },
+            "TRANSFORMADOR": {
+                "OTROS": null
+            },
+            "GENERADOR35K": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "MOTORIZADO": {
+            "BANCO DE CARGA": {
+                "OTROS": null
+            },
+            "BATIDORA": {
+                "OTROS": null
+            },
+            "BOMBA": {
+                "AUTOBOMBA": {
+                    "OTROS": null
+                },
+                "BOMBA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "COMPACTADOR": {
+                "OTROS": null
+            },
+            "COMPRESOR": {
+                "OTROS": null
+            },
+            "CORTADORA": {
+                "OTROS": null
+            },
+            "DEMOLEDOR": {
+                "ELECTRICO": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "ESCARIFICADORA": {
+                "OTROS": null
+            },
+            "INTERCAMBIADOR DE CALOR": {
+                "OTROS": null
+            },
+            "MAQUINA SEMIAUTOMATICAS": {
+                "OTROS": null
+            },
+            "MEZCLADOR": {
+                "OTROS": null
+            },
+            "MOTOR": {
+                "OTROS": null
+            },
+            "ENSAMBLADORA": {
+                "OTROS": null
+            },
+            "GUNITADORA": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "NO MOTORIZADO": {
+            "CHASIS": {
+                "OTROS": null
+            },
+            "CILINDRO": {
+                "OTROS": null
+            },
+            "CISTERNA": {
+                "OTROS": null
+            },
+            "CISTERNA AGUA": {
+                "OTROS": null
+            },
+            "MEZCLADOR": {
+                "TROMPOMEZCLADOR": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "PLATAFORMA": {
+                "OTROS": null
+            },
+            "TANQUES": {
+                "TANQUEAGUA": {
+                    "OTROS": null
+                },
+                "TANQUE ENFRIADOR": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "CONTENEDOR": {
+                "OTROS": null
+            },
+            "TRAILER": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "OTROS": {
+            "BASCULA": {
+                "OTROS": null
+            },
+            "SILO": {
+                "OTROS": null
+            },
+            "OBRACIVIL": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "GASES Y SOLDADURA": {
+            "GASES": {
+                "BALONES": {
+                    "OTROS": null
+                },
+                "BOMBONA": {
+                    "OTROS": null
+                },
+                "CILINDRO": {
+                    "OTROS": null
+                },
+                "OXICORTE": {
+                    "OTROS": null
+                },
+                "PLANTA ACETILENO": {
+                    "OTROS": null
+                },
+                "PLANTA DE OXIGENO": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "SOLDADURA": {
+                "ALIMENTADOR": {
+                    "OTROS": null
+                },
+                "EQUIPO SOLDADURA": {
+                    "OTROS": null
+                },
+                "MAQUINARIA DE SOLDAR": {
+                    "OTROS": null
+                },
+                "MOTOSOLDADOR": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        }
+    },
+    "EQUIPO MOVIL": {
+        "OFF ROAD": {
+            "MAQUINARIA AMARILLA": {
+                "BOMBA": {
+                    "OTROS": null
+                },
+                "BULLDOZER": {
+                    "OTROS": null
+                },
+                "CAMABAJA": {
+                    "OTROS": null
+                },
+                "CAMION": {
+                    "OTROS": null
+                },
+                "CAMIÓN DE VOLTEO": {
+                    "OTROS": null
+                },
+                "CARGADOR FRONTAL": {
+                    "OTROS": null
+                },
+                "CARRO REMOLQUE": {
+                    "OTROS": null
+                },
+                "CARRO REVOLVEDOR MIXER": {
+                    "OTROS": null
+                },
+                "EXCAVADORA": {
+                    "OTROS": null
+                },
+                "GRUA": {
+                    "OTROS": null
+                },
+                "LOUDER": {
+                    "OTROS": null
+                },
+                "MANIPULADOR TELÉSCOPICO": {
+                    "OTROS": null
+                },
+                "MINI EXCAVADORA": {
+                    "OTROS": null
+                },
+                "MIXIER": {
+                    "OTROS": null
+                },
+                "MOTO NIVELADORA": {
+                    "OTROS": null
+                },
+                "PERFORADORA": {
+                    "OTROS": null
+                },
+                "REMOLQUE": {
+                    "OTROS": null
+                },
+                "RETROEXCAVADORA": {
+                    "OTROS": null
+                },
+                "SKYTRAK": {
+                    "OTROS": null
+                },
+                "TELEHANDER": {
+                    "OTROS": null
+                },
+                "TRACTOR": {
+                    "OTROS": null
+                },
+                "TRAILER": {
+                    "OTROS": null
+                },
+                "VIBROCOMPATADORA": {
+                    "OTROS": null
+                },
+                "VOLQUETA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "VEHICULO INDUSTRIAL": {
+                "BRAZO ARTICULADO": {
+                    "OTROS": null
+                },
+                "BROKK": {
+                    "OTROS": null
+                },
+                "D10": {
+                    "OTROS": null
+                },
+                "ELEVADOR": {
+                    "OTROS": null
+                },
+                "MANLIFT": {
+                    "OTROS": null
+                },
+                "MINICARGADOR": {
+                    "OTROS": null
+                },
+                "MONTACARGAS": {
+                    "OTROS": null
+                },
+                "PALA MECANICA": {
+                    "OTROS": null
+                },
+                "SKYTRACK": {
+                    "OTROS": null
+                },
+                "VIBROCOMPACTADOR": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "ON ROAD": {
+            "VEHICULOS UTILITARIOS": {
+                "AUTOBUS": {
+                    "OTROS": null
+                },
+                "AUTOMOVIL": {
+                    "OTROS": null
+                },
+                "CAMIONETA": {
+                    "OTROS": null
+                },
+                "ELEVADOR": {
+                    "OTROS": null
+                },
+                "MINIBUS": {
+                    "OTROS": null
+                },
+                "MINIVAN": {
+                    "OTROS": null
+                },
+                "VAGONETA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "OTROS": {
+            "MAQUINARIA": {
+                "OTROS": null
+            },
+            "EQUIPO MOVILEPSA": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        }
+    },
+    "REPUESTOS MATERIALES Y HERRAMIENTAS": {
+        "ELECTRICOS": {
+            "EQUIPOS LOGISTICOS": {
+                "OTROS": null
+            },
+            "EQUIPO ESPACIO CONFINADOS": {
+                "OTROS": null
+            },
+            "EQUIPOS DE SEGURIDAD": {
+                "ANDAMIO": {
+                    "OTROS": null
+                },
+                "TABLAS": {
+                    "OTROS": null
+                },
+                "TARIMA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "FERRETERIA": {
+            "ABRAZADERA": {
+                "OTROS": null
+            },
+            "BRAZOS": {
+                "OTROS": null
+            },
+            "TUBERIA": {
+                "OTROS": null
+            },
+            "CODOS": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "HERRAMIENTAS": {
+            "ESCALERA": {
+                "OTROS": null
+            },
+            "HIDROLAVADORA": {
+                "OTROS": null
+            },
+            "LLAVE TROQUE": {
+                "OTROS": null
+            },
+            "MARTILLO": {
+                "OTROS": null
+            },
+            "PALA": {
+                "OTROS": null
+            },
+            "PULIDORA": {
+                "OTROS": null
+            },
+            "RANURADORA": {
+                "OTROS": null
+            },
+            "ROMPE PAVIMENTO": {
+                "OTROS": null
+            },
+            "SECADOR": {
+                "OTROS": null
+            },
+            "TALADRO": {
+                "OTROS": null
+            },
+            "TIJERILLA": {
+                "OTROS": null
+            },
+            "HERRAMIENTAS MECANICA": {
+                "OTROS": null
+            },
+            "HERRAMIENTAS PRESICION": {
+                "OTROS": null
+            },
+            "HERRAMIENTAS HIDRÁULICAS": {
+                "ENTALLADORA HIDRAULICA": {
+                    "OTROS": null
+                },
+                "OTROS": {
+                    "OTROS": null
+                }
+            },
+            "CUCHILLA": {
+                "OTROS": null
+            },
+            "HERRAMIENTAS ELECTRICAS": {
+                "OTROS": null
+            },
+            "HERRAMIENTA PEQUEÑA": {
+                "OTROS": null
+            },
+            "ROMPEDORA": {
+                "OTROS": null
+            },
+            "ROSCADORA": {
+                "OTROS": null
+            },
+            "TRONZADORA": {
+                "OTROS": null
+            },
+            "TALADRO JACKHAMMER": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "INSTRUMENTOS": {
+            "CAMARA TERMOGRÁFICA": {
+                "OTROS": null
+            },
+            "FUENTE DE SOLDAR": {
+                "OTROS": null
+            },
+            "MEDIDOR DE AISLAMIENTO": {
+                "OTROS": null
+            },
+            "MEGGER": {
+                "OTROS": null
+            },
+            "MONITOR INDUSTRIAL": {
+                "OTROS": null
+            },
+            "OSCILOSCOPIO": {
+                "OTROS": null
+            },
+            "PROBADOR PRESION ACEITE": {
+                "OTROS": null
+            },
+            "SISMOGRAFO": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "INTERCOMUNICACION": {
+            "RADIOS": {
+                "OTROS": null
+            },
+            "CAMARA DE SEGURIDAD": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "LABORATORIO": {
+            "MOLDE": {
+                "OTROS": null
+            },
+            "PANEL": {
+                "OTROS": null
+            },
+            "RAYOSX": {
+                "OTROS": null
+            },
+            "TERMOMETRO": {
+                "OTROS": null
+            },
+            "OTROS": {
+                "OTROS": null
+            }
+        },
+        "PALLETS": {
+            "OTROS": null
+        },
+        "POLINES DE MADERA": {
+            "OTROS": null
+        },
+        "OTROS": {
+            "OTROS": null
+        }
+    },
+    "OTROS": {
+        "OTROS": null
+    }
+}
+}
