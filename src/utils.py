@@ -2,6 +2,18 @@ import json
 import streamlit as st
 import snowflake.connector
 import pandas as pd
+from streamlit import session_state as ss
+
+
+def load_keywords():
+    keywords = [
+        "DIESEL",
+        "BEARINGS AND ACCESORIES",
+    ]
+    path = "src/json/{}_keywords.json"
+    keys = {item: read_load_json(path.format(item.split(" ")[0])) for item in keywords}
+    return keys
+
 
 def read_load_json(path: str) -> dict:
     """
@@ -29,12 +41,13 @@ def read_load_json(path: str) -> dict:
     {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}
     """
 
-    with open(path, encoding='utf-8') as file_json:
+    with open(path, encoding="utf-8") as file_json:
         data_json = json.load(file_json)
 
     return data_json
 
-def find_paths(tree: dict, node: str, path:list=[]) -> list:
+
+def find_paths(tree: dict, node: str, path: list = []) -> list:
     """
     Returns a list of all possible paths from the root to leaf nodes in a given tree.
 
@@ -71,15 +84,15 @@ def find_paths(tree: dict, node: str, path:list=[]) -> list:
 
     if tree[node] is None:
         return [path]
-    
+
     paths = []
-    
+
     for child in tree[node]:
         child_paths = find_paths(tree[node], child, path)
-        
+
         for child_path in child_paths:
             paths.append(child_path)
-    
+
     return paths
 
 
@@ -112,9 +125,12 @@ def snowflake_connection() -> snowflake.connector:
     >>> print(result)
     42
     """
-    ctx = snowflake.connector.connect(**st.secrets["snowflake"], client_session_keep_alive=True)
-    st.session_state['is_ready'] = True
+    ctx = snowflake.connector.connect(
+        **st.secrets["snowflake"], client_session_keep_alive=True
+    )
+    st.session_state["is_ready"] = True
     return ctx
+
 
 @st.experimental_memo(ttl=600)
 def load_data(query: str) -> pd.DataFrame:
@@ -155,5 +171,5 @@ def load_data(query: str) -> pd.DataFrame:
     cur = conn.cursor().execute(query)
     df_headers = pd.DataFrame(cur.description)
     data = cur.fetchall()
-    st.session_state['is_ready'] = False
+    st.session_state["is_ready"] = False
     return pd.DataFrame(data, columns=df_headers["name"])

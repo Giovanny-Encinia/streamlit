@@ -1,11 +1,12 @@
 {
-    "KEYWORDS":[
-       "DIESEL",
-       "EXXONMOBIL",
-       "GALONES",
-       "PETROLEO",
-       " FUEL ",
-       " OILS",
-       "TEXACO"
-    ]
- }
+   "KEYWORDS": [
+      "DIESEL",
+      "DIESEL,SUPER DIESEL,EXXONMOBIL",
+      "EXXONMOBIL",
+      "GALONES",
+      "PETROLEO",
+      " FUEL ",
+      " OILS",
+      "TEXACO"
+   ]
+}
