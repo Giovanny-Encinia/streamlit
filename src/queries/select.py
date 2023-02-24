@@ -49,3 +49,16 @@ QUERY_RECORD_INFERENCE = """
                                     ) = I.FK_ID
                             WHERE Nivel1_PREDICTED = {}
          """
+QUERY_SEARCH_UNIQUE = """
+    SELECT
+       *
+    FROM
+      PRD_TDS_GBL_PROCUREMENT.DAT.TX_COMPRAS_VW_OPT
+    WHERE
+      1 = 1
+      AND PUR_COUNTRY IN ('{country}')
+      AND PUR_PO_NUM LIKE '%{number}%'
+      AND PUR_PO_DOC_TYPE LIKE '%{doc}%'
+      AND PUR_PO_MATDOC LIKE '%{matdoc}%'
+      AND PUR_C_COST_TYPE LIKE '{cost_type}'
+"""

@@ -97,7 +97,7 @@ def find_paths(tree: dict, node: str, path: list = []) -> list:
 
 
 @st.experimental_singleton
-def snowflake_connection() -> snowflake.connector:
+def snowflake_connection(prod: bool = False) -> snowflake.connector:
     """
     Initialize a connection to Snowflake using the specified credentials.
 
@@ -125,15 +125,21 @@ def snowflake_connection() -> snowflake.connector:
     >>> print(result)
     42
     """
-    ctx = snowflake.connector.connect(
-        **st.secrets["snowflake"], client_session_keep_alive=True
-    )
-    st.session_state["is_ready"] = True
+    if prod:
+        ctx = snowflake.connector.connect(
+            **st.secrets["snowflake_prod"], client_session_keep_alive=True
+        )
+        st.session_state["is_ready"] = True
+    else:
+        ctx = snowflake.connector.connect(
+            **st.secrets["snowflake"], client_session_keep_alive=True
+        )
+        st.session_state["is_ready"] = True
     return ctx
 
 
 @st.experimental_memo(ttl=600)
-def load_data(query: str) -> pd.DataFrame:
+def load_data(query: str, prod: bool = False) -> pd.DataFrame:
     """
     Load data from a Snowflake database using the specified SQL query and save a status connection in a streamlit
     sesion_state like False
@@ -166,8 +172,11 @@ def load_data(query: str) -> pd.DataFrame:
     2         103       30       40
     ...       ...      ...      ...
     """
+    if prod:
+        conn = snowflake_connection(True)
+    else:
+        conn = snowflake_connection()
 
-    conn = snowflake_connection()
     cur = conn.cursor().execute(query)
     df_headers = pd.DataFrame(cur.description)
     data = cur.fetchall()
