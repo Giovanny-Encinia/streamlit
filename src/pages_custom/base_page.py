@@ -118,7 +118,7 @@ class base:
                 df["LABELED"] = False
 
                 if ss[self.last_index] > 0:
-                    ss[self.dataframe] = df
+                    ss["dataframemain"] = df
                     ss[self.page_name] = True
                 else:
                     st.warning("No result, there is not data")

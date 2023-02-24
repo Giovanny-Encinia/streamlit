@@ -19,8 +19,7 @@ def azar(dt, col):
 
 # Funcion para % de confianza
 def threshold(dataframe):
-    df = dataframe[dataframe["CONFIDENCE"] < 0.8].sample(frac=0.3, random_state=1)
-    return df
+    return dataframe.query("CONFIDENCE < 0.8").reset_index()
 
 
 def search_keywords(df: pd.DataFrame, keywords: list) -> pd.DataFrame:
@@ -70,4 +69,4 @@ def search_maximum_cost(
         The first `n` rows ordered by the given columns in descending
         order.
     """
-    return df.nlargest(n, "PUR_AMOUNT_USD")
+    return df.nlargest(n, "PUR_AMOUNT_USD").reset_index()

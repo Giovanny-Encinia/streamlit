@@ -2,13 +2,7 @@ from src.pages_custom.base_page import base
 import streamlit as st
 from streamlit import session_state as ss
 from src.funciones import search_keywords
-from src.utils import (
-    read_load_json,
-    find_paths,
-    load_data,
-    snowflake_connection,
-    load_keywords,
-)
+from src.utils import read_load_json, load_keywords
 
 ss["LABELS"] = read_load_json("src/json/labels.json")
 load_keywords_dict = load_keywords()
@@ -30,9 +24,12 @@ elif "dataframemain" in ss:
     keywords.create_sidebar()
 
 keywords.create_top()
+
 if (
-    ss.option == "DIESEL" or ss.option == "BEARINGS AND ACCESORIES"
-) and not ss.dataframemain.empty:
+    "dataframemain" in ss
+    and (ss.option == "DIESEL" or ss.option == "BEARINGS AND ACCESORIES")
+    and not ss.dataframemain.empty
+):
     keywords.get_dataframe(
         search_keywords(ss.dataframemain, load_keywords_dict[ss.option]["KEYWORDS"])
     )

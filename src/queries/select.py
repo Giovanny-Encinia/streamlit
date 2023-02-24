@@ -34,14 +34,18 @@ QUERY_RECORD_INFERENCE = """
                             JOIN
                               DEV_SND_GBL_GA.DATA_ENGINEERING.TX_COMPRAS_VW_LABELING_DUMMY AS O
                             ON
-                              CONCAT(O.PUR_PO_TEXT,
+                              CONCAT(
                                     O.PUR_COUNTRY,
                                     O.PUR_PO_NUM,
                                     O.PUR_PO_ITEM,
                                     O.PUR_PO_DOC_TYPE,
                                     O.PUR_PO_MATDOC,
                                     O.PUR_PO_IT_MATDOC, 
-                                    O.PUR_C_COST_TYPE
+                                    O.PUR_C_COST_TYPE,
+                                    CASE
+                                      WHEN O.PUR_ADD_COST_TYPE IS NULL THEN 'NAN'
+                                      ELSE O.PUR_ADD_COST_TYPE
+                                    END
                                     ) = I.FK_ID
                             WHERE Nivel1_PREDICTED = {}
          """

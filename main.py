@@ -1,18 +1,5 @@
-import streamlit as st
 from streamlit import session_state as ss
-from PIL import Image
-from src.funciones import search_keywords, search_maximum_cost
-from src.utils import (
-    read_load_json,
-    find_paths,
-    load_data,
-    snowflake_connection,
-    load_keywords,
-)
-from src.queries.select import DUMMY_QUERY
-from src.on_click_functions.buttons import next, previous
-import datetime
-import pandas as pd
+from src.utils import read_load_json, load_keywords
 from src.pages_custom.base_page import base
 
 # READ JSON file
