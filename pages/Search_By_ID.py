@@ -145,7 +145,6 @@ with st.sidebar.form(key="formid"):
             cost_type=ss["cost_type"],
         )
         query = QUERY_SEARCH_UNIQUE.format(**sql_params)
-        st.write(query)
         df = load_data(query, True)
         # df_inference = load_data(QUERY_RECORD_INFERENCE.format(option))
         ss["last_indexid"] = df.shape[0] - 1
@@ -173,5 +172,3 @@ if "dataframeid" in ss and not ss["dataframeid"].empty:
         ss["dataframeid"],
         use_container_width=True,
     )
-    st.write(ss["dataframeid"].dtypes)
-    st.write(ss["dataframeid"].shape)

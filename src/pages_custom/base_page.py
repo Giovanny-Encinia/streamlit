@@ -32,9 +32,6 @@ class base:
         None
         """
 
-        st.write(ss[self.counter])
-        st.write(ss[self.last_index])
-
         if ss[self.counter] > ss[self.last_index] - 1:
             ss[self.counter] = ss[self.last_index]
         else:
@@ -78,21 +75,34 @@ class base:
 
     def create_sidebar(self):
         with st.sidebar.form(key=self.page_name + "form"):
+            # initialize the sidebar options
             if "option" not in ss:
-                ss["option"] = "no"
+                ss["option"] = "MAQUINARIA Y EQUIPO"
 
-            now = datetime.datetime.now()
-            two_weeks_ago = now - datetime.timedelta(weeks=2)
+            if "samples" not in ss:
+                ss["samples"] = 10
+
+            if "start_date" not in ss:
+                ss["start_date"] = datetime.datetime.now() - datetime.timedelta(weeks=2)
+
+            if "end_date" not in ss:
+                ss["end_date"] = datetime.datetime.now()
+
+            # remember exist servicios servicios, so this can be repeated, this is the reason wich need the union
             label_option = set(ss.LABELS.keys()).union(ss.LABELS["SERVICIOS"].keys())
+            # save in a list labels, this is, each time user selections a new label, save labels for a good visualization
+            label_option_list = list(label_option)
+            label_option_list.insert(0, ss["option"])
             option = st.selectbox(
-                "Which database do you want to validate?", label_option
+                "Which database do you want to validate?", label_option_list
             )
-            ss["start_date"] = st.date_input("Select begin date", two_weeks_ago)
-            ss["start_date"] = ss.start_date.strftime("%Y-%m-%d")
-            ss["end_date"] = st.date_input("Select end date", now)
-            ss["end_date"] = ss.end_date.strftime("%Y-%m-%d")
+            start_date = st.date_input("Select begin date", value=ss["start_date"])
+            end_date = st.date_input("Select end date", value=ss["end_date"])
             samples = st.number_input(
-                "How many samples do you want?: ", min_value=10, max_value=10000
+                "How many samples do you want?: ",
+                min_value=10,
+                max_value=10000,
+                value=ss["samples"],
             )
             # Every form must have a submit button.
             submitted = st.form_submit_button("Get data")
@@ -100,6 +110,8 @@ class base:
             if submitted:
                 ss["samples"] = samples
                 ss["option"] = option
+                ss["start_date"] = start_date
+                ss["end_date"] = end_date
 
                 if "is_ready" in ss:
                     st.write("Succes")
@@ -107,8 +119,23 @@ class base:
                     ss["is_ready"] = False
 
                 ss[self.counter] = 0
+
+                if ss.option in ss["load_keywords_dict"]:
+                    keywords_search = ss["load_keywords_dict"][ss.option]["KEYWORDS"]
+                    keywords_search = (
+                        "(UPPER(PUR_PO_TEXT) LIKE '%"
+                        + "%' OR UPPER(PUR_PO_TEXT) LIKE '%".join(keywords_search)
+                        + "%')"
+                    )
+                else:
+                    keywords_search = "1 = 1 "
+
                 sql_params = dict(
-                    sample=ss.samples, start_date=ss.start_date, end_date=ss.end_date
+                    sample=ss.samples,
+                    start_date=ss.start_date.strftime("%Y-%m-%d"),
+                    end_date=ss.end_date.strftime("%Y-%m-%d"),
+                    pur_line_desc=ss.option.replace(" ", ""),
+                    keywords_search=keywords_search,
                 )
                 query = DUMMY_QUERY.format(**sql_params)
                 df = load_data(query)

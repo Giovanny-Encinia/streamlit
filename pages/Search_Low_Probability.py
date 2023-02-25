@@ -10,16 +10,21 @@ from src.utils import (
     load_keywords,
 )
 
-ss["LABELS"] = read_load_json("src/json/labels.json")
-load_keywords_dict = load_keywords()
-ss["COLUMNS_FRONTEND"] = [
-    "PUR_PO_TEXT",
-    "LABEL",
-    "CONFIDENCE",
-    "PUR_COUNTRY",
-    "PUR_VENDOR_NAME",
-    "PUR_PO_UOM",
-]
+if "LABELS" not in ss:
+    ss["LABELS"] = read_load_json("src/json/labels.json")
+
+if "load_keywords_list" not in ss:
+    ss["load_keywords_dict"] = load_keywords()
+
+if "COLUMNS_FRONTEND" not in ss:
+    ss["COLUMNS_FRONTEND"] = [
+        "PUR_PO_TEXT",
+        "LABEL",
+        "CONFIDENCE",
+        "PUR_COUNTRY",
+        "PUR_VENDOR_NAME",
+        "PUR_PO_UOM",
+    ]
 
 if "main" not in ss:
     main = base("main")

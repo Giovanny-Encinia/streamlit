@@ -7,9 +7,10 @@ DUMMY_QUERY = """
             FROM
               DEV_SND_GBL_GA.DATA_ENGINEERING.TX_COMPRAS_VW_LABELING_DUMMY
             WHERE
-              TO_DATE(PUR_POSTING_DATE, 'yyyyMMdd') 
-              BETWEEN '{start_date}'
-              AND '{end_date}'
+              ({keywords_search}
+              OR NIVEL_PREDICTED = '{pur_line_desc}')
+              AND TO_DATE(PUR_POSTING_DATE, 'yyyyMMdd') 
+              BETWEEN '{start_date}' AND '{end_date}'
             LIMIT {sample}"""
 QUERY_RECORD = """
             SELECT * FROM  DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel"""
