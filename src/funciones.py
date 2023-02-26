@@ -1,25 +1,9 @@
 import pandas as pd
-import streamlit as st
 
 
-# Main function para llamar a las demas
-def mainDf(dataframe, column):
-    d1 = azar(dataframe)
-    d2 = threshold(dataframe, column)
-    # d3 = keywords(dataframe,column)
-    result = pd.concat(d1, d2)
-    return result
-
-
-# Funcion random
-def azar(dt, col):
-    df = dt[dt[col] > 0.8].sample(frac=0.4, replace=False, random_state=1)
-    return df
-
-
-# Funcion para % de confianza
+# Funcion para % de confianza, WIP
 def threshold(dataframe):
-    return dataframe.query("CONFIDENCE < 0.8").reset_index()
+    return dataframe
 
 
 def search_keywords(df: pd.DataFrame, keywords: list) -> pd.DataFrame:

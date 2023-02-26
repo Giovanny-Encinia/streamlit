@@ -103,7 +103,8 @@ def snowflake_connection(prod: bool = False) -> snowflake.connector:
 
     Parameters
     ----------
-    None
+    prod : bool
+        This is for to make the correct connection to prod database or dev databas
 
     Returns
     -------
@@ -148,6 +149,8 @@ def load_data(query: str, prod: bool = False) -> pd.DataFrame:
     ----------
     query : str
         The SQL query to execute to retrieve the data.
+    prod : bool
+        This is for to make the correct connection to prod database or dev database
 
     Returns
     -------

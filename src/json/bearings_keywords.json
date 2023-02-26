@@ -1,18 +1,20 @@
 {
-    "KEYWORDS":[
-       "RODAMIENTO",
-       "BEARING",
-       "ROD",
-       "TUERCA FIJACION",
-       "MANGUITO FIJACION",
-       "TUERCA FIJ",
-       "ANILLO RETENCION",
-       "SOPORTE ",
-       "SOP",
-       "SOP PISO",
-       "SOPORTE PARED",
-       "SOPORTE PISO",
-       "ZDEL SOP",
-       "SPTE PISO"
-    ]
- }
+   "KEYWORDS": [
+      "RODAMIENTO",
+      "BEARING",
+      "ROD ",
+      "ROD.",
+      "TUERCA FIJACION",
+      "MANGUITO FIJACION",
+      "TUERCA FIJ",
+      "ANILLO RETENCION",
+      "SOPORTE ",
+      "SOP ",
+      "SOP.",
+      "SOP PISO",
+      "SOPORTE PARED",
+      "SOPORTE PISO",
+      "ZDEL SOP",
+      "SPTE PISO"
+   ]
+}

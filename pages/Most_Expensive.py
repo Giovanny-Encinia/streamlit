@@ -20,13 +20,18 @@ if "load_keywords_list" not in ss:
 if "COLUMNS_FRONTEND" not in ss:
     ss["COLUMNS_FRONTEND"] = [
         "PUR_PO_TEXT",
-        "LABEL",
-        "CONFIDENCE",
         "PUR_COUNTRY",
+        "PUR_PO_NUM",
+        "PUR_PO_ITEM",
+        "PUR_PO_DOC_TYPE",
+        "PUR_PO_MATDOC",
+        "PUR_PO_IT_MATDOC",
+        "PUR_C_COST_TYPE",
         "PUR_VENDOR_NAME",
+        "PUR_AMOUNT_USD",
         "PUR_PO_UOM",
     ]
-
+# query
 if "main" not in ss:
     main = base("main")
     main.create_sidebar()

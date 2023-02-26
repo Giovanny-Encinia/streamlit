@@ -5,7 +5,7 @@ from streamlit import session_state as ss
 import time
 from PIL import Image
 from src.utils import read_load_json, find_paths, load_data, snowflake_connection
-from src.queries.select import DUMMY_QUERY, QUERY_RECORD_INFERENCE, QUERY_RECORD
+from src.queries.select import DUMMY_QUERY, QUERY_SPEND, QUERY_RECORD
 import datetime
 import pandas as pd
 from src.funciones import search_keywords, search_maximum_cost
@@ -113,6 +113,11 @@ class base:
                 ss["start_date"] = start_date
                 ss["end_date"] = end_date
 
+                # each time it exits a request all the counter have to be 0
+                for key in ss:
+                    if "counter" in key:
+                        ss[key] = 0
+
                 if "is_ready" in ss:
                     st.write("Succes")
                 else:
@@ -128,7 +133,8 @@ class base:
                         + "%')"
                     )
                 else:
-                    keywords_search = "1 = 1 "
+                    # This is  always FALSE then the return value is only the predicted like the option
+                    keywords_search = "1 = 2 "
 
                 sql_params = dict(
                     sample=ss.samples,
@@ -137,20 +143,23 @@ class base:
                     pur_line_desc=ss.option.replace(" ", ""),
                     keywords_search=keywords_search,
                 )
-                query = DUMMY_QUERY.format(**sql_params)
-                df = load_data(query)
+                # for test use dummy data
+                query = QUERY_SPEND.format(**sql_params)
+                # True is for prod connection
+                df = load_data(query, True)
                 # df_inference = load_data(QUERY_RECORD_INFERENCE.format(option))
                 ss[self.last_index] = df.shape[0] - 1
-                df = df.rename(
-                    columns={"NIVEL_PREDICTED": "LABEL", "NIVEL_PROBA": "CONFIDENCE"}
-                )
+                # df = df.rename(
+                #     columns={"NIVEL_PREDICTED": "LABEL", "NIVEL_PROBA": "CONFIDENCE"}
+                # )
                 df["LABELED"] = False
 
                 if ss[self.last_index] > 0:
                     ss["dataframemain"] = df
                     ss[self.page_name] = True
                 else:
-                    st.warning("No result, there is not data")
+                    st.warning("No result, there is not datajajajaj")
+                    ss["dataframemain"] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
                     ss[self.dataframe] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
 
     def get_dataframe(self, df: pd.DataFrame):
@@ -160,7 +169,11 @@ class base:
     def main_content(self):
         col1, col2, col3 = st.columns(3)
 
-        if self.dataframe in ss and not ss[self.dataframe].empty:
+        if (
+            self.dataframe in ss
+            and not ss[self.dataframe].empty
+            and not ss["dataframemain"].empty
+        ):
             ss[self.last_index] = ss[self.dataframe].shape[0] - 1
 
             if ss[self.counter] < ss[self.last_index]:
@@ -191,7 +204,8 @@ class base:
                 correccion = st.button("Corregir", key=self.page_name + "correct")
 
                 if correccion:
-                    ss[self.dataframe].iloc[ss[self.counter]]["LABEL"] = op
+                    # ss[self.dataframe].iloc[ss[self.counter]]["LABEL"] = op
+                    pass
 
                 if ss[self.counter] == ss[self.last_index]:
                     update = st.button("Update", key=self.page_name + "update")

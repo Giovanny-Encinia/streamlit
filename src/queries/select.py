@@ -12,8 +12,37 @@ DUMMY_QUERY = """
               AND TO_DATE(PUR_POSTING_DATE, 'yyyyMMdd') 
               BETWEEN '{start_date}' AND '{end_date}'
             LIMIT {sample}"""
+# WIP, this query will change when we can write the tbl record inference in prod database
+QUERY_SPEND = """
+            SELECT
+              *
+            FROM
+              PRD_TDS_GBL_PROCUREMENT.DAT.TX_COMPRAS_VW_OPT
+            WHERE
+              ({keywords_search})
+              AND TO_DATE(PUR_POSTING_DATE, 'yyyyMMdd') 
+              BETWEEN '{start_date}' AND '{end_date}'
+              AND PUR_COUNTRY IN ('CO')
+            LIMIT {sample}"""
+# This query will not be used in the future when the record inference exists in de prod database
+# but the structure for the final query is the same
 QUERY_RECORD = """
-            SELECT * FROM  DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel"""
+              SELECT
+                *
+              FROM
+                DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel AS I
+              JOIN (
+                  SELECT
+                    FK_ID,
+                    MAX(CAST(Datetime AS TIMESTAMP)) AS max_datetime
+                  FROM 
+                    DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabell
+                  GROUP BY
+                    FK_ID
+              ) I_max
+              ON
+                I.fk_id = I_max.fk_id AND I.Datetime = I_max.max_datetime
+             """
 QUERY_RECORD_INFERENCE = """
                             SELECT
                               I.FK_ID,

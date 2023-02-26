@@ -57,14 +57,20 @@ if "cost_type" not in ss:
 if "add_cost_type" not in ss:
     ss["add_cost_type"] = "NAN"
 
-ss["COLUMNS_FRONTEND"] = [
-    "PUR_PO_TEXT",
-    "LABEL",
-    "CONFIDENCE",
-    "PUR_COUNTRY",
-    "PUR_VENDOR_NAME",
-    "PUR_PO_UOM",
-]
+if "COLUMNS_FRONTEND" not in ss:
+    ss["COLUMNS_FRONTEND"] = [
+        "PUR_PO_TEXT",
+        "PUR_COUNTRY",
+        "PUR_PO_NUM",
+        "PUR_PO_ITEM",
+        "PUR_PO_DOC_TYPE",
+        "PUR_PO_MATDOC",
+        "PUR_PO_IT_MATDOC",
+        "PUR_C_COST_TYPE",
+        "PUR_VENDOR_NAME",
+        "PUR_AMOUNT_USD",
+        "PUR_PO_UOM",
+    ]
 country_list = [
     ss["country"],
     "MX",
@@ -127,6 +133,13 @@ with st.sidebar.form(key="formid"):
         else:
             ss["is_ready"] = False
 
+        previous_country = ss["country"]
+        previous_number = ss["number"]
+        previous_item = ss["item"]
+        previous_doc = ss["doc"]
+        previous_matdoc = ss["matdoc"]
+        previous_it_matdoc = ss["it_matdoc"]
+
         ss["country"] = country
         ss["number"] = number
         ss["item"] = item
@@ -148,9 +161,9 @@ with st.sidebar.form(key="formid"):
         df = load_data(query, True)
         # df_inference = load_data(QUERY_RECORD_INFERENCE.format(option))
         ss["last_indexid"] = df.shape[0] - 1
-        df = df.rename(
-            columns={"NIVEL_PREDICTED": "LABEL", "NIVEL_PROBA": "CONFIDENCE"}
-        )
+        # df = df.rename(
+        #     columns={"NIVEL_PREDICTED": "LABEL", "NIVEL_PROBA": "CONFIDENCE"}
+        # )
         df["LABELED"] = False
 
         if ss["last_indexid"] > 0:
@@ -159,6 +172,12 @@ with st.sidebar.form(key="formid"):
         else:
             st.warning("No result, there is not data")
             ss["dataframeid"] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
+            ss["country"] = previous_country
+            ss["number"] = previous_number
+            ss["item"] = previous_item
+            ss["doc"] = previous_doc
+            ss["matdoc"] = previous_matdoc
+            ss["it_matdoc"] = previous_it_matdoc
 
 
 col1, col2, col3 = st.columns(3)
