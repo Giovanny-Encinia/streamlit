@@ -17,14 +17,22 @@ if "COLUMNS_FRONTEND" not in ss:
         "PUR_PO_TEXT",
         "PUR_COUNTRY",
         "PUR_PO_NUM",
-        "PUR_PO_ITEM",
         "PUR_PO_DOC_TYPE",
         "PUR_PO_MATDOC",
-        "PUR_PO_IT_MATDOC",
         "PUR_C_COST_TYPE",
         "PUR_VENDOR_NAME",
         "PUR_AMOUNT_USD",
         "PUR_PO_UOM",
+        "PUR_LINE_DESC_PREDICTED",
+        "PUR_LINE_DESC_PROBABILITY",
+        "NIVEL1_PREDICTED",
+        "NIVEL1_PROBABILITY",
+        "NIVEL2_PREDICTED",
+        "NIVEL2_PROBABILITY",
+        "NIVEL3_PREDICTED",
+        "NIVEL3_PROBABILITY",
+        "NIVEL4_PREDICTED",
+        "NIVEL4_PROBABILITY",
     ]
 
 if "main" not in ss:
@@ -42,6 +50,7 @@ if (
     and (ss.option == "DIESEL" or ss.option == "BEARINGS AND ACCESORIES")
     and not ss.dataframemain.empty
 ):
+    st.write("ACCEDE A LA FUNCION CREATE")
     keywords.get_dataframe(
         search_keywords(
             ss.dataframemain, ss["load_keywords_dict"][ss.option]["KEYWORDS"]

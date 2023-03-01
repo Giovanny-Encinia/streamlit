@@ -147,16 +147,36 @@ class base:
                 query = QUERY_SPEND.format(**sql_params)
                 # True is for prod connection
                 df = load_data(query, True)
-                # df_inference = load_data(QUERY_RECORD_INFERENCE.format(option))
-                ss[self.last_index] = df.shape[0] - 1
+                df = df.drop(columns="PUR_PO_TEXT")
+                df_inference = load_data(QUERY_RECORD)
+                df_merged = pd.merge(
+                    df,
+                    df_inference,
+                    on=[
+                        "PUR_COUNTRY",
+                        "PUR_PO_NUM",
+                        "PUR_PO_ITEM",
+                        "PUR_PO_DOC_TYPE",
+                        "PUR_PO_MATDOC",
+                        "PUR_PO_IT_MATDOC",
+                        "PUR_C_COST_TYPE",
+                        "PUR_ADD_COST_TYPE",
+                    ],
+                )
+                ss[self.last_index] = df_merged.shape[0] - 1
+                st.write("submit sidebar")
+                st.write(ss[self.last_index])
                 # df = df.rename(
                 #     columns={"NIVEL_PREDICTED": "LABEL", "NIVEL_PROBA": "CONFIDENCE"}
                 # )
                 df["LABELED"] = False
 
-                if ss[self.last_index] > 0:
-                    ss["dataframemain"] = df
+                if ss[self.last_index] >= 0:
+                    ss["dataframemain"] = df_merged
                     ss[self.page_name] = True
+                    ss["submit"] = True
+                    ss["black_list_index"] = []
+                    st.write(self.page_name)
                 else:
                     st.warning("No result, there is not datajajajaj")
                     ss["dataframemain"] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
@@ -169,13 +189,13 @@ class base:
     def main_content(self):
         col1, col2, col3 = st.columns(3)
 
+        # in main self.dataframe is 'dataframemain' and each selkect option independent of the page
+        # is saved in this state
         if (
             self.dataframe in ss
             and not ss[self.dataframe].empty
             and not ss["dataframemain"].empty
         ):
-            ss[self.last_index] = ss[self.dataframe].shape[0] - 1
-
             if ss[self.counter] < ss[self.last_index]:
                 col3.button("Next", on_click=self.next, key=self.page_name + "next")
 
@@ -184,8 +204,15 @@ class base:
                     "Previous", on_click=self.previous, key=self.page_name + "prev"
                 )
 
+            st.write(ss[self.dataframe].shape)
+            end = ss[self.dataframe].shape[0]
+            actual = ss[self.counter]
+            st.write(f"{actual + 1}/{end}")
             st.dataframe(
-                ss[self.dataframe].iloc[ss[self.counter]].loc[ss.COLUMNS_FRONTEND],
+                ss[self.dataframe]
+                .reset_index()
+                .iloc[ss[self.counter]]
+                .loc[ss.COLUMNS_FRONTEND],
                 use_container_width=True,
             )
             check = st.radio(

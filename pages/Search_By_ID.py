@@ -102,11 +102,12 @@ doc_type_list = [
     "FO",
     "CON",
     "ZNB",
-    "ZFRC",
+    "ZFR",
     "NB",
 ]
 add_cost_list = [
     ss["add_cost_type"],
+    "NAN",
     "ZRB1",
     "ZI05",
     "ZI04",
@@ -132,13 +133,6 @@ with st.sidebar.form(key="formid"):
             st.write("Succes")
         else:
             ss["is_ready"] = False
-
-        previous_country = ss["country"]
-        previous_number = ss["number"]
-        previous_item = ss["item"]
-        previous_doc = ss["doc"]
-        previous_matdoc = ss["matdoc"]
-        previous_it_matdoc = ss["it_matdoc"]
 
         ss["country"] = country
         ss["number"] = number
@@ -172,13 +166,6 @@ with st.sidebar.form(key="formid"):
         else:
             st.warning("No result, there is not data")
             ss["dataframeid"] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
-            ss["country"] = previous_country
-            ss["number"] = previous_number
-            ss["item"] = previous_item
-            ss["doc"] = previous_doc
-            ss["matdoc"] = previous_matdoc
-            ss["it_matdoc"] = previous_it_matdoc
-
 
 col1, col2, col3 = st.columns(3)
 

@@ -28,20 +28,21 @@ QUERY_SPEND = """
 # but the structure for the final query is the same
 QUERY_RECORD = """
               SELECT
-                *
+                  I.*,
+                  I_max.max_datetime
               FROM
                 DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel AS I
               JOIN (
-                  SELECT
-                    FK_ID,
-                    MAX(CAST(Datetime AS TIMESTAMP)) AS max_datetime
-                  FROM 
-                    DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabell
-                  GROUP BY
-                    FK_ID
+                SELECT
+                  FK_ID,
+                  MAX(CAST(Datetime AS TIMESTAMP)) AS max_datetime
+                FROM 
+                  DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel
+                GROUP BY
+                  FK_ID
               ) I_max
               ON
-                I.fk_id = I_max.fk_id AND I.Datetime = I_max.max_datetime
+              I.fk_id = I_max.fk_id AND CAST(I.Datetime AS TIMESTAMP) = I_max.max_datetime
              """
 QUERY_RECORD_INFERENCE = """
                             SELECT
