@@ -147,6 +147,7 @@ class base:
                 query = QUERY_SPEND.format(**sql_params)
                 # True is for prod connection
                 df = load_data(query, True)
+                st.write("first query")
                 df = df.drop(columns="PUR_PO_TEXT")
                 df_inference = load_data(QUERY_RECORD)
                 df_merged = pd.merge(
@@ -174,7 +175,6 @@ class base:
                 if ss[self.last_index] >= 0:
                     ss["dataframemain"] = df_merged
                     ss[self.page_name] = True
-                    ss["submit"] = True
                     ss["black_list_index"] = []
                     st.write(self.page_name)
                 else:
@@ -211,6 +211,12 @@ class base:
             st.dataframe(
                 ss[self.dataframe]
                 .reset_index()
+                .iloc[ss[self.counter]]
+                .loc[ss.COLUMNS_FRONTEND],
+                use_container_width=True,
+            )
+            st.dataframe(
+                ss[self.dataframe]
                 .iloc[ss[self.counter]]
                 .loc[ss.COLUMNS_FRONTEND],
                 use_container_width=True,

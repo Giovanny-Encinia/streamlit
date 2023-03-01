@@ -2,7 +2,7 @@ from src.pages_custom.base_page import base
 import streamlit as st
 import numpy as np
 from streamlit import session_state as ss
-from src.funciones import search_maximum_cost
+from src.funciones import search_maximum_cost, tree_functions
 from src.utils import (
     read_load_json,
     find_paths,
@@ -53,12 +53,13 @@ expensive.create_top()
 if "dataframemain" in ss and not ss.dataframemain.empty:
     st.write(ss.dataframemain["PUR_AMOUNT_USD"].dtypes)
 
-    if ss.dataframemain["PUR_AMOUNT_USD"].dtypes == "object":
-        ss.dataframemain["PUR_AMOUNT_USD"] = ss.dataframemain["PUR_AMOUNT_USD"].apply(
-            lambda x: np.random.uniform(low=10, high=10000)
-        )
+    # if ss.dataframemain["PUR_AMOUNT_USD"].dtypes == "object":
+    #     ss.dataframemain["PUR_AMOUNT_USD"] = ss.dataframemain["PUR_AMOUNT_USD"].apply(
+    #         lambda x: np.random.uniform(low=10, high=10000)
+    #     )
 
-    expensive.get_dataframe(search_maximum_cost(ss.dataframemain))
+    # expensive.get_dataframe(search_maximum_cost(ss.dataframemain, ss["load_keywords_dict"][ss.option]["KEYWORDS"]))
+    tree_functions(ss.dataframemain, ss["load_keywords_dict"][ss.option]["KEYWORDS"])
     expensive.main_content()
 else:
     pass

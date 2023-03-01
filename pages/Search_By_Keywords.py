@@ -3,7 +3,7 @@
 from src.pages_custom.base_page import base
 import streamlit as st
 from streamlit import session_state as ss
-from src.funciones import search_keywords
+from src.funciones import search_keywords, tree_functions
 from src.utils import read_load_json, load_keywords
 
 if "LABELS" not in ss:
@@ -51,11 +51,12 @@ if (
     and not ss.dataframemain.empty
 ):
     st.write("ACCEDE A LA FUNCION CREATE")
-    keywords.get_dataframe(
-        search_keywords(
-            ss.dataframemain, ss["load_keywords_dict"][ss.option]["KEYWORDS"]
-        )
-    )
+    # keywords.get_dataframe(
+    #     search_keywords(
+    #         ss.dataframemain, ss["load_keywords_dict"][ss.option]["KEYWORDS"]
+    #     )
+    # )
+    tree_functions(ss.dataframemain, ss["load_keywords_dict"][ss.option]["KEYWORDS"])
     keywords.main_content()
 else:
     pass

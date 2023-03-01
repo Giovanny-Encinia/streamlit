@@ -3,6 +3,7 @@ from src.utils import read_load_json, load_keywords, load_data
 from src.pages_custom.base_page import base
 from src.queries.select import QUERY_RECORD
 import streamlit as st
+from src.funciones import search_keywords
 
 # READ JSON file
 if "LABELS" not in ss:
