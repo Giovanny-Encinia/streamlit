@@ -64,7 +64,7 @@ class base:
             imagen = Image.open("src/images/MicrosoftTeams-image.png")
             st.image(imagen)
 
-        st.title("Procurement Labeling Tool Cemex")
+        st.title("Smart Categorization Feedback Tool")
 
         if self.last_index not in ss:
             ss[self.last_index] = 0

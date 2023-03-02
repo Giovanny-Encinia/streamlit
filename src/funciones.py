@@ -30,7 +30,6 @@ def tree_functions(
     if ss["submit"]:
         # this is the first time that the user select a filter
         mask = df["PUR_PO_TEXT"].str.upper().str.contains("|".join(keywords))
-        st.write(mask.shape)
         # there exist the posibility that the keywords will be less than all the sample
         if mask.sum() < ss["dataframemain"].shape[0] / 3:
             ss["dataframekeywords"] = df[mask]

@@ -122,7 +122,8 @@ with st.sidebar.form(key="formid"):
 
     if submitted:
         if "is_ready" in ss:
-            st.write("Succes")
+            # st.write("Succes")
+            pass
         else:
             ss["is_ready"] = False
 
@@ -185,32 +186,35 @@ if "dataframeid" in ss and not ss["dataframeid"].empty:
         ],
     )
     ss["dataframemergedid"] = df_merged
-    st.dataframe(
-        ss["dataframemergedid"].iloc[0].loc[ss["COLUMNS_FRONTEND"]],
-        use_container_width=True,
-    )
-    check = st.radio("Label:", ("Correct", "Incorrect"), key="id" + "radio")
-
-    if check == "Incorrect":
-        label_option_correct = set(ss.LABELS.keys()).union(
-            ss.LABELS["SERVICIOS"].keys()
+    if not ss["dataframemergedid"].empty:
+        st.dataframe(
+            ss["dataframemergedid"].iloc[0].loc[ss["COLUMNS_FRONTEND"]],
+            use_container_width=True,
         )
-        # save in a list labels, this is, each time user selections a new label, save labels for a good visualization
-        label_optioncorrect_list = list(label_option_correct)
-        ss["optioncorrect"] = st.selectbox(
-            "Choose a category", label_optioncorrect_list
-        )
+        check = st.radio("Label:", ("Correct", "Incorrect"), key="id" + "radio")
 
-        tree = ss.LABELS
+        if check == "Incorrect":
+            label_option_correct = set(ss.LABELS.keys()).union(
+                ss.LABELS["SERVICIOS"].keys()
+            )
+            # save in a list labels, this is, each time user selections a new label, save labels for a good visualization
+            label_optioncorrect_list = list(label_option_correct)
+            ss["optioncorrect"] = st.selectbox(
+                "Choose a category", label_optioncorrect_list
+            )
 
-        if ss.optioncorrect not in ["BEARINGS AND ACCESORIES", "DIESEL"]:
-            tree = ss.LABELS["SERVICIOS"]
+            tree = ss.LABELS
 
-        paths = find_paths(tree, ss.optioncorrect)
-        level_labels = [">".join(path) for path in paths]
-        op = st.selectbox("Label correcto: ", level_labels)
-        correccion = st.button("Corregir", key="id" + "correct")
+            if ss.optioncorrect not in ["BEARINGS AND ACCESORIES", "DIESEL"]:
+                tree = ss.LABELS["SERVICIOS"]
 
-        if correccion:
-            # ss[self.dataframe].iloc[ss[self.counter]]["LABEL"] = op
-            pass
+            paths = find_paths(tree, ss.optioncorrect)
+            level_labels = [">".join(path) for path in paths]
+            op = st.selectbox("Label correcto: ", level_labels)
+            correccion = st.button("Corregir", key="id" + "correct")
+
+            if correccion:
+                # ss[self.dataframe].iloc[ss[self.counter]]["LABEL"] = op
+                pass
+    else:
+        st.warning("No result, there is not data")
