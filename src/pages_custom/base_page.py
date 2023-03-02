@@ -5,10 +5,9 @@ from streamlit import session_state as ss
 import time
 from PIL import Image
 from src.utils import read_load_json, find_paths, load_data, snowflake_connection
-from src.queries.select import DUMMY_QUERY, QUERY_SPEND, QUERY_RECORD
+from src.queries.select import QUERY_SPEND, QUERY_RECORD
 import datetime
 import pandas as pd
-from src.funciones import search_keywords, search_maximum_cost
 
 
 class base:
@@ -125,6 +124,12 @@ class base:
 
                 ss[self.counter] = 0
 
+                if "BEARINGS AND ACCESORIES" == ss.option or "DIESEL" == ss.option:
+                    condition_pred = f"PUR_LINE_DESC_PREDICTED = '{ss.option}'"
+                else:
+                    ss.option = ss.option.replace(" ", "")
+                    condition_pred = f"NIVEL1_PREDICTED = '{ss.option}'"
+
                 if ss.option in ss["load_keywords_dict"]:
                     keywords_search = ss["load_keywords_dict"][ss.option]["KEYWORDS"]
                     keywords_search = (
@@ -140,16 +145,17 @@ class base:
                     sample=ss.samples,
                     start_date=ss.start_date.strftime("%Y-%m-%d"),
                     end_date=ss.end_date.strftime("%Y-%m-%d"),
-                    pur_line_desc=ss.option.replace(" ", ""),
+                    condition_pred=condition_pred,
                     keywords_search=keywords_search,
                 )
-                # for test use dummy data
+                # Get data dev database
                 query = QUERY_SPEND.format(**sql_params)
                 # True is for prod connection
                 df = load_data(query, True)
-                st.write("first query")
+
                 df = df.drop(columns="PUR_PO_TEXT")
-                df_inference = load_data(QUERY_RECORD)
+                # get data from inference record table
+                df_inference = load_data(QUERY_RECORD.format(**sql_params))
                 df_merged = pd.merge(
                     df,
                     df_inference,
@@ -165,20 +171,18 @@ class base:
                     ],
                 )
                 ss[self.last_index] = df_merged.shape[0] - 1
-                st.write("submit sidebar")
-                st.write(ss[self.last_index])
                 # df = df.rename(
                 #     columns={"NIVEL_PREDICTED": "LABEL", "NIVEL_PROBA": "CONFIDENCE"}
                 # )
                 df["LABELED"] = False
 
                 if ss[self.last_index] >= 0:
+                    ss["submit"] = True
                     ss["dataframemain"] = df_merged
                     ss[self.page_name] = True
                     ss["black_list_index"] = []
-                    st.write(self.page_name)
                 else:
-                    st.warning("No result, there is not datajajajaj")
+                    st.warning("No result, there is not data")
                     ss["dataframemain"] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
                     ss[self.dataframe] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
 
@@ -204,21 +208,25 @@ class base:
                     "Previous", on_click=self.previous, key=self.page_name + "prev"
                 )
 
-            st.write(ss[self.dataframe].shape)
             end = ss[self.dataframe].shape[0]
             actual = ss[self.counter]
-            st.write(f"{actual + 1}/{end}")
+
+            with col2:
+                st.progress((actual + 1) / end)
+                # st.write(f"{actual + 1}/{end}")
+                st.markdown(
+                    f'<div style="text-align: center; font-size: 20px;">{actual + 1}/{end}</div>',
+                    unsafe_allow_html=True,
+                )
+            # st.dataframe(
+            #     ss[self.dataframe]
+            #     .reset_index()
+            #     .iloc[ss[self.counter]]
+            #     .loc[ss.COLUMNS_FRONTEND],
+            #     use_container_width=True,
+            # )
             st.dataframe(
-                ss[self.dataframe]
-                .reset_index()
-                .iloc[ss[self.counter]]
-                .loc[ss.COLUMNS_FRONTEND],
-                use_container_width=True,
-            )
-            st.dataframe(
-                ss[self.dataframe]
-                .iloc[ss[self.counter]]
-                .loc[ss.COLUMNS_FRONTEND],
+                ss[self.dataframe].iloc[ss[self.counter]].loc[ss.COLUMNS_FRONTEND],
                 use_container_width=True,
             )
             check = st.radio(
@@ -226,12 +234,21 @@ class base:
             )
 
             if check == "Incorrect":
+                label_option_correct = set(ss.LABELS.keys()).union(
+                    ss.LABELS["SERVICIOS"].keys()
+                )
+                # save in a list labels, this is, each time user selections a new label, save labels for a good visualization
+                label_optioncorrect_list = list(label_option_correct)
+                ss["optioncorrect"] = st.selectbox(
+                    "Choose a category", label_optioncorrect_list
+                )
+
                 tree = ss.LABELS
 
-                if ss.option not in ["BEARINGS AND ACCESORIES", "DIESEL"]:
+                if ss.optioncorrect not in ["BEARINGS AND ACCESORIES", "DIESEL"]:
                     tree = ss.LABELS["SERVICIOS"]
-
-                paths = find_paths(tree, ss.option)
+                st.write(ss["optioncorrect"])
+                paths = find_paths(tree, ss.optioncorrect)
                 level_labels = [">".join(path) for path in paths]
                 op = st.selectbox("Label correcto: ", level_labels)
                 correccion = st.button("Corregir", key=self.page_name + "correct")

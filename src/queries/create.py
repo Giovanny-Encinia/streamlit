@@ -2,6 +2,7 @@ CREATE_RECORD = """
                 CREATE TABLE IF NOT EXISTS DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel (
                 FK_ID VARCHAR(150),
                 DATETIME TIMESTAMP_TZ,
+                PUR_POSTING_DATE VARCHAR(8),
                 USER VARCHAR(255),
                 ACTIVE_LEARNING BOOLEAN,
                 PUR_PO_TEXT VARCHAR(255),

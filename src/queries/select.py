@@ -1,17 +1,6 @@
 # Carlos Giovanny Encinia Gonzalez
 # carlos.encinia@ext.cemex.com
 
-DUMMY_QUERY = """
-            SELECT
-              *
-            FROM
-              DEV_SND_GBL_GA.DATA_ENGINEERING.TX_COMPRAS_VW_LABELING_DUMMY
-            WHERE
-              ({keywords_search}
-              OR NIVEL_PREDICTED = '{pur_line_desc}')
-              AND TO_DATE(PUR_POSTING_DATE, 'yyyyMMdd') 
-              BETWEEN '{start_date}' AND '{end_date}'
-            LIMIT {sample}"""
 # WIP, this query will change when we can write the tbl record inference in prod database
 QUERY_SPEND = """
             SELECT
@@ -23,63 +12,39 @@ QUERY_SPEND = """
               AND TO_DATE(PUR_POSTING_DATE, 'yyyyMMdd') 
               BETWEEN '{start_date}' AND '{end_date}'
               AND PUR_COUNTRY IN ('CO')
+              AND PUR_PO_NUM IS NOT NULL 
+              AND PUR_PO_NUM != ''
+              AND (PUR_LINE_DESC IS NULL OR PUR_LINE_DESC = '') 
+              AND (PUR_CATEG_DESC IS NULL OR PUR_LINE_DESC = '') 
+              AND PUR_VENDOR_CODE like '0005%'
+              AND PUR_PO_TEXT IS NOT NULL
+              AND PUR_COUNTRY IS NOT NULL
+              AND PUR_PO_NUM IS NOT NULL
+              AND PUR_PO_ITEM IS NOT NULL
+              AND PUR_PO_IT_MATDOC IS NOT NULL 
+              AND PUR_C_COST_TYPE IS NOT NULL
             LIMIT {sample}"""
 # This query will not be used in the future when the record inference exists in de prod database
 # but the structure for the final query is the same
 QUERY_RECORD = """
-              SELECT
-                  I.*,
-                  I_max.max_datetime
-              FROM
-                DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel AS I
-              JOIN (
+              WITH CTE AS (
                 SELECT
-                  FK_ID,
-                  MAX(CAST(Datetime AS TIMESTAMP)) AS max_datetime
-                FROM 
+                  *,
+                  ROW_NUMBER() OVER (PARTITION BY FK_ID ORDER BY Datetime DESC) AS time
+                FROM
                   DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel
-                GROUP BY
-                  FK_ID
-              ) I_max
-              ON
-              I.fk_id = I_max.fk_id AND CAST(I.Datetime AS TIMESTAMP) = I_max.max_datetime
+              )
+              SELECT 
+                *
+              FROM
+                CTE
+              WHERE
+                time = 1 AND
+              ({keywords_search} OR {condition_pred})
+              AND TO_DATE(PUR_POSTING_DATE, 'yyyyMMdd') 
+              BETWEEN '{start_date}' AND '{end_date}'
+              AND PUR_COUNTRY IN ('CO')
              """
-QUERY_RECORD_INFERENCE = """
-                            SELECT
-                              I.FK_ID,
-                              I.Nivel1_PREDICTED,
-                              O.*
-                            FROM
-                              DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel AS I
-                            JOIN (
-                                SELECT
-                                  FK_ID,
-                                  MAX(CAST(Datetime AS TIMESTAMP)) AS max_datetime
-                                FROM 
-                                  DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel
-                                GROUP BY
-                                  FK_ID
-                            ) I_max
-                            ON
-                              I.fk_id = I_max.fk_id AND I.Datetime = I_max.max_datetime
-                            JOIN
-                              DEV_SND_GBL_GA.DATA_ENGINEERING.TX_COMPRAS_VW_LABELING_DUMMY AS O
-                            ON
-                              CONCAT(
-                                    O.PUR_COUNTRY,
-                                    O.PUR_PO_NUM,
-                                    O.PUR_PO_ITEM,
-                                    O.PUR_PO_DOC_TYPE,
-                                    O.PUR_PO_MATDOC,
-                                    O.PUR_PO_IT_MATDOC, 
-                                    O.PUR_C_COST_TYPE,
-                                    CASE
-                                      WHEN O.PUR_ADD_COST_TYPE IS NULL THEN 'NAN'
-                                      ELSE O.PUR_ADD_COST_TYPE
-                                    END
-                                    ) = I.FK_ID
-                            WHERE Nivel1_PREDICTED = {}
-         """
 QUERY_SEARCH_UNIQUE = """
     SELECT
        *
@@ -92,4 +57,24 @@ QUERY_SEARCH_UNIQUE = """
       AND PUR_PO_DOC_TYPE LIKE '%{doc}%'
       AND PUR_PO_MATDOC LIKE '%{matdoc}%'
       AND PUR_C_COST_TYPE LIKE '{cost_type}'
+"""
+QUERY_SEARCH_UNIQUE_INFERENCE = """
+    WITH CTE AS (
+                SELECT
+                  *,
+                  ROW_NUMBER() OVER (PARTITION BY FK_ID ORDER BY Datetime DESC) AS time
+                FROM
+                  DEV_SND_GBL_GA.DATA_ENGINEERING.TblRecordInferenceLabel
+              )
+              SELECT 
+                *
+              FROM
+                CTE
+              WHERE
+                time = 1
+                AND PUR_COUNTRY IN ('{country}')
+                AND PUR_PO_NUM LIKE '%{number}%'
+                AND PUR_PO_DOC_TYPE LIKE '%{doc}%'
+                AND PUR_PO_MATDOC LIKE '%{matdoc}%'
+                AND PUR_C_COST_TYPE LIKE '{cost_type}'
 """

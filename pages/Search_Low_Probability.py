@@ -1,12 +1,8 @@
 from src.pages_custom.base_page import base
-import streamlit as st
 from streamlit import session_state as ss
-from src.funciones import search_keywords, threshold, tree_functions
+from src.funciones import tree_functions
 from src.utils import (
     read_load_json,
-    find_paths,
-    load_data,
-    snowflake_connection,
     load_keywords,
 )
 

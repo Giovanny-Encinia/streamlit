@@ -2,18 +2,10 @@
 # carlos.encinia@ext.cemex.com
 import streamlit as st
 from streamlit import session_state as ss
-import time
 from PIL import Image
-from src.utils import read_load_json, find_paths, load_data, snowflake_connection
-from src.queries.select import (
-    DUMMY_QUERY,
-    QUERY_RECORD_INFERENCE,
-    QUERY_RECORD,
-    QUERY_SEARCH_UNIQUE,
-)
-import datetime
+from src.utils import load_data, find_paths
+from src.queries.select import QUERY_SEARCH_UNIQUE, QUERY_SEARCH_UNIQUE_INFERENCE
 import pandas as pd
-from src.funciones import search_keywords, search_maximum_cost
 
 col1, col2, col3 = st.columns([2, 2, 5])
 
@@ -153,6 +145,8 @@ with st.sidebar.form(key="formid"):
         )
         query = QUERY_SEARCH_UNIQUE.format(**sql_params)
         df = load_data(query, True)
+        query_inference = QUERY_SEARCH_UNIQUE_INFERENCE.format(**sql_params)
+        df_inference = load_data(query_inference).drop(columns="PUR_PO_TEXT")
         # df_inference = load_data(QUERY_RECORD_INFERENCE.format(option))
         ss["last_indexid"] = df.shape[0] - 1
         # df = df.rename(
@@ -162,10 +156,12 @@ with st.sidebar.form(key="formid"):
 
         if ss["last_indexid"] > 0:
             ss["dataframeid"] = df
+            ss["dataframeinferenceid"] = df_inference
             ss["id"] = True
         else:
             st.warning("No result, there is not data")
             ss["dataframeid"] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
+            ss["dataframeinferenceid"] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
 
 col1, col2, col3 = st.columns(3)
 
@@ -174,7 +170,47 @@ if "dataframeid" in ss and not ss["dataframeid"].empty:
         "PUR_PO_ITEM == @ss['item'] and PUR_PO_IT_MATDOC == @ss['it_matdoc']"
     )
     ss["last_indexid"] = ss["dataframeid"].shape[0] - 1
-    st.dataframe(
+    df_merged = pd.merge(
         ss["dataframeid"],
+        ss["dataframeinferenceid"],
+        on=[
+            "PUR_COUNTRY",
+            "PUR_PO_NUM",
+            "PUR_PO_ITEM",
+            "PUR_PO_DOC_TYPE",
+            "PUR_PO_MATDOC",
+            "PUR_PO_IT_MATDOC",
+            "PUR_C_COST_TYPE",
+            "PUR_ADD_COST_TYPE",
+        ],
+    )
+    ss["dataframemergedid"] = df_merged
+    st.dataframe(
+        ss["dataframemergedid"].iloc[0].loc[ss["COLUMNS_FRONTEND"]],
         use_container_width=True,
     )
+    check = st.radio("Label:", ("Correct", "Incorrect"), key="id" + "radio")
+
+    if check == "Incorrect":
+        label_option_correct = set(ss.LABELS.keys()).union(
+            ss.LABELS["SERVICIOS"].keys()
+        )
+        # save in a list labels, this is, each time user selections a new label, save labels for a good visualization
+        label_optioncorrect_list = list(label_option_correct)
+        ss["optioncorrect"] = st.selectbox(
+            "Choose a category", label_optioncorrect_list
+        )
+
+        tree = ss.LABELS
+
+        if ss.optioncorrect not in ["BEARINGS AND ACCESORIES", "DIESEL"]:
+            tree = ss.LABELS["SERVICIOS"]
+
+        paths = find_paths(tree, ss.optioncorrect)
+        level_labels = [">".join(path) for path in paths]
+        op = st.selectbox("Label correcto: ", level_labels)
+        correccion = st.button("Corregir", key="id" + "correct")
+
+        if correccion:
+            # ss[self.dataframe].iloc[ss[self.counter]]["LABEL"] = op
+            pass

@@ -9,6 +9,11 @@ def load_keywords():
     keywords = [
         "DIESEL",
         "BEARINGS AND ACCESORIES",
+        "SERVICIOS",
+        "ALQUILERES",
+        "REPUESTOSMATERIALESYHERRAMIENTAS",
+        "EQUIPOMOVIL",
+        "MAQUINARIAYEQUIPO",
     ]
     path = "src/json/{}_keywords.json"
     keys = {item: read_load_json(path.format(item.split(" ")[0])) for item in keywords}
@@ -104,7 +109,8 @@ def snowflake_connection(prod: bool = False) -> snowflake.connector:
     Parameters
     ----------
     prod : bool
-        This is for to make the correct connection to prod database or dev databas
+        This is for to make the correct connection to prod database or dev database
+        prod False is for dev connection
 
     Returns
     -------

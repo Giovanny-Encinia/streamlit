@@ -1,9 +1,6 @@
 from streamlit import session_state as ss
-from src.utils import read_load_json, load_keywords, load_data
+from src.utils import read_load_json, load_keywords
 from src.pages_custom.base_page import base
-from src.queries.select import QUERY_RECORD
-import streamlit as st
-from src.funciones import search_keywords
 
 # READ JSON file
 if "LABELS" not in ss:
@@ -37,6 +34,7 @@ if "COLUMNS_FRONTEND" not in ss:
         "NIVEL4_PREDICTED",
         "NIVEL4_PROBABILITY",
     ]
+
 # query = QUERY_RECORD
 # df = load_data(query)
 # st.dataframe(df)

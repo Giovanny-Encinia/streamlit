@@ -1,8 +1,6 @@
 from src.pages_custom.base_page import base
-import streamlit as st
-import numpy as np
 from streamlit import session_state as ss
-from src.funciones import search_maximum_cost, tree_functions
+from src.funciones import tree_functions
 from src.utils import (
     read_load_json,
     find_paths,
@@ -51,7 +49,7 @@ elif "dataframemain" in ss:
 expensive.create_top()
 
 if "dataframemain" in ss and not ss.dataframemain.empty:
-    st.write(ss.dataframemain["PUR_AMOUNT_USD"].dtypes)
+    # st.write(ss.dataframemain["PUR_AMOUNT_USD"].dtypes)
 
     # if ss.dataframemain["PUR_AMOUNT_USD"].dtypes == "object":
     #     ss.dataframemain["PUR_AMOUNT_USD"] = ss.dataframemain["PUR_AMOUNT_USD"].apply(
