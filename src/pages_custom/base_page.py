@@ -6,8 +6,10 @@ import time
 from PIL import Image
 from src.utils import read_load_json, find_paths, load_data, snowflake_connection
 from src.queries.select import QUERY_SPEND, QUERY_RECORD
+from src.queries.create import INSERT_RECORD
 import datetime
 import pandas as pd
+import re
 
 
 class base:
@@ -17,6 +19,13 @@ class base:
         self.counter = "counter" + page_name
         self.dataframe = "dataframe" + page_name
         pass
+
+    def delete_label_keys(self):
+        _ = [
+            ss.pop(name + self.page_name)
+            for name in ("deeplevel", "level1", "correctness")
+            if name + self.page_name in ss
+        ]
 
     def next(self):
         """
@@ -35,6 +44,7 @@ class base:
             ss[self.counter] = ss[self.last_index]
         else:
             ss[self.counter] += 1
+            self.delete_label_keys()
 
     def previous(self):
         """
@@ -49,6 +59,7 @@ class base:
         None
         """
         ss[self.counter] -= 1
+        self.delete_label_keys()
 
         if ss[self.counter] < 0:
             ss[self.counter] = 0
@@ -170,17 +181,24 @@ class base:
                         "PUR_ADD_COST_TYPE",
                     ],
                 )
+                df_merged["Labeled"] = False
+                ss["indexlabel" + self.page_name] = [
+                    False for _ in range(df_merged.shape[0])
+                ]
+                df_merged["Label"] = " "
+                ss["indexlabel_temp" + self.page_name] = [
+                    " " for _ in range(df_merged.shape[0])
+                ]
                 ss[self.last_index] = df_merged.shape[0] - 1
-                # df = df.rename(
-                #     columns={"NIVEL_PREDICTED": "LABEL", "NIVEL_PROBA": "CONFIDENCE"}
-                # )
-                df["LABELED"] = False
 
                 if ss[self.last_index] >= 0:
                     ss["submit"] = True
                     ss["dataframemain"] = df_merged
                     ss[self.page_name] = True
                     ss["black_list_index"] = []
+                    ss["datadictionary"] = {
+                        fk_id: [] for fk_id in ss["dataframemain"]["FK_ID"]
+                    }
                 else:
                     st.warning("No result, there is not data")
                     ss["dataframemain"] = pd.DataFrame([], ss.COLUMNS_FRONTEND)
@@ -213,55 +231,160 @@ class base:
 
             with col2:
                 st.progress((actual + 1) / end)
-                # st.write(f"{actual + 1}/{end}")
                 st.markdown(
                     f'<div style="text-align: center; font-size: 20px;">{actual + 1}/{end}</div>',
                     unsafe_allow_html=True,
                 )
-            # st.dataframe(
-            #     ss[self.dataframe]
-            #     .reset_index()
-            #     .iloc[ss[self.counter]]
-            #     .loc[ss.COLUMNS_FRONTEND],
-            #     use_container_width=True,
-            # )
+
             st.dataframe(
                 ss[self.dataframe].iloc[ss[self.counter]].loc[ss.COLUMNS_FRONTEND],
                 use_container_width=True,
             )
-            check = st.radio(
-                "Label:", ("Correct", "Incorrect"), key=self.page_name + "radio"
-            )
 
-            if check == "Incorrect":
-                label_option_correct = set(ss.LABELS.keys()).union(
-                    ss.LABELS["SERVICIOS"].keys()
-                )
-                # save in a list labels, this is, each time user selections a new label, save labels for a good visualization
-                label_optioncorrect_list = list(label_option_correct)
-                ss["optioncorrect"] = st.selectbox(
-                    "Choose a category", label_optioncorrect_list
-                )
+            # initialize because the others rows
+            if "correctness" + self.page_name not in ss:
+                ss["correctness" + self.page_name] = " "
 
+            # Chosse Correct or Incorrect
+            with st.form("correct_label" + self.page_name, clear_on_submit=True):
+                st.write("Is it correct?")
+                correctness = st.selectbox(
+                    "",
+                    [" ", "Correct", "Incorrect"],
+                    index=0,
+                )
+                # Every form must have a submit button.
+                submitted = st.form_submit_button("Select and continue")
+
+                if submitted:
+                    ss["correctness" + self.page_name] = correctness
+
+            # check option
+            if ss["correctness" + self.page_name] == "Incorrect":
                 tree = ss.LABELS
 
-                if ss.optioncorrect not in ["BEARINGS AND ACCESORIES", "DIESEL"]:
-                    tree = ss.LABELS["SERVICIOS"]
-                st.write(ss["optioncorrect"])
-                paths = find_paths(tree, ss.optioncorrect)
-                level_labels = [">".join(path) for path in paths]
-                op = st.selectbox("Label correcto: ", level_labels)
-                correccion = st.button("Corregir", key=self.page_name + "correct")
+                with st.form("insidecorrect_label" + self.page_name):
+                    label_option_correct = set(ss.LABELS.keys()).union(
+                        ss.LABELS["SERVICIOS"].keys()
+                    )
+                    # save in a list labels, this is, each time user selections a new label, save labels for a good visualization
+                    label_optioncorrect_list = list(label_option_correct)
 
-                if correccion:
-                    # ss[self.dataframe].iloc[ss[self.counter]]["LABEL"] = op
+                    if "level1" + self.page_name not in ss:
+                        ss["level1" + self.page_name] = " "
+
+                    optioncorrect = st.selectbox(
+                        "Choose a category", label_optioncorrect_list
+                    )
+                    insidesubmitted = st.form_submit_button("Select and continue")
+
+                    if insidesubmitted:
+                        ss["level1" + self.page_name] = optioncorrect
+
+                if ss["level1" + self.page_name] != " ":
+                    if ss["level1" + self.page_name] not in [
+                        "BEARINGS AND ACCESORIES",
+                        "DIESEL",
+                    ]:
+                        tree = ss.LABELS["SERVICIOS"]
+
+                    paths = find_paths(tree, optioncorrect)
+                    level_labels = [">".join(path) for path in paths]
+
+                    with st.form("deep_level" + self.page_name):
+                        if "deeplevel" + self.page_name not in ss:
+                            ss["deeplevel" + self.page_name] = " "
+
+                        op = st.selectbox("Label correcto: ", level_labels)
+
+                        deeplevelsubmitted = st.form_submit_button("Label")
+
+                        if deeplevelsubmitted:
+                            ss["deeplevel" + self.page_name] = op
+
+                    if ss["deeplevel" + self.page_name] != " ":
+                        list_levels = op.replace(" ", "").split(">")
+                        # ss["datadictionary"]
+                        fk_id = ss[self.dataframe].iloc[ss[self.counter]].loc["FK_ID"]
+                        list_columns_actualrow = list(
+                            ss[self.dataframe]
+                            .iloc[ss[self.counter]]
+                            .loc[ss["columns_record"]]
+                        )
+                        list_columns_actualrow[1] = datetime.datetime.utcnow()
+                        list_columns_actualrow[3] = "HUMAN_LABELED"
+                        list_columns_actualrow[8] = int(
+                            re.search(r"\d+", str(list_columns_actualrow[8])).group()
+                        )
+                        list_columns_actualrow[11] = int(
+                            re.search(r"\d+", str(list_columns_actualrow[11])).group()
+                        )
+                        list_columns_actualrow[14] = "BASE_DATOS"
+                        list_columns_actualrow[15] = 1.0
+                        list_columns_actualrow[17] = 1.0
+                        list_columns_actualrow[19] = 1.0
+                        list_columns_actualrow[21] = 1.0
+                        list_columns_actualrow[23] = 1.0
+                        list_columns_actualrow[25] = 1.0
+
+                        if list_levels[0] == "OTROS":
+                            list_columns_actualrow[14] = "OTROS_COD"
+                            list_columns_actualrow[16] = "OTROS"
+                            list_columns_actualrow[18] = "OTROS"
+                        elif list_levels[0] == "BEARINGSANDACCESORIES":
+                            list_columns_actualrow[16] = "BEARINGS AND ACCESORIES"
+                            list_columns_actualrow[18] = list_levels[1]
+                        elif list_levels[0] == "DIESEL":
+                            list_columns_actualrow[16] = "DIESEL"
+                            list_columns_actualrow[18] = "DIESEL"
+                        else:
+                            list_columns_actualrow[16] = "SERVICIOS"
+                            list_columns_actualrow[18] = list_levels[0]
+                            list_columns_actualrow[20] = list_levels[1]
+                            list_columns_actualrow[22] = list_levels[2]
+                            list_columns_actualrow[24] = list_levels[3]
+
+                        ss["indexlabel_temp" + self.page_name][
+                            ss[self.counter]
+                        ] = list_levels
+                        ss[self.dataframe]["Label"] = ss[
+                            "indexlabel_temp" + self.page_name
+                        ]
+
+                        ss["datadictionary"][fk_id] = list_columns_actualrow
+
+                        ss["indexlabel" + self.page_name][ss[self.counter]] = True
+                        ss[self.dataframe]["Labeled"] = ss[
+                            "indexlabel" + self.page_name
+                        ]
+                        st.write("SUCCESS")
+            elif ss["correctness" + self.page_name] == "Correct":
+                ss["indexlabel" + self.page_name][ss[self.counter]] = True
+                ss[self.dataframe]["Labeled"] = ss["indexlabel" + self.page_name]
+
+            if ss[self.counter] == ss[self.last_index]:
+                update = st.button("Update", key=self.page_name + "update")
+
+                if update:
+                    items = [
+                        (id, row)
+                        for id, row in ss["datadictionary"].items()
+                        if row != []
+                    ]
+                    params = []
+
+                    for key, item in items:
+                        params.append(item)
+                        del ss["datadictionary"][key]
+
+                    cnx = snowflake_connection()
+                    cs = cnx.cursor()
+                    cs.executemany(INSERT_RECORD, params)
+
                     pass
 
-                if ss[self.counter] == ss[self.last_index]:
-                    update = st.button("Update", key=self.page_name + "update")
+            show_df = st.checkbox("Show raw data")
 
-                show_df = st.checkbox("Show raw data")
-
-                # show dataframe is checkbox selected
-                if show_df:
-                    st.dataframe(ss[self.dataframe], use_container_width=True)
+            # show dataframe is checkbox selected
+            if show_df:
+                st.dataframe(ss[self.dataframe], use_container_width=True)

@@ -51,6 +51,7 @@ if "add_cost_type" not in ss:
 
 if "COLUMNS_FRONTEND" not in ss:
     ss["COLUMNS_FRONTEND"] = [
+        "Labeled",
         "PUR_PO_TEXT",
         "PUR_COUNTRY",
         "PUR_PO_NUM",

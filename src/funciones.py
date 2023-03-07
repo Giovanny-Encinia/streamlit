@@ -38,7 +38,7 @@ def tree_functions(
             ss["dataframekeywords"] = df[mask].sample(frac=0.33, random_state=42)
 
         # st.dataframe(ss.dataframekeywords)
-        ss["last_indexkeywords"] = ss["dataframekeywords"].shape[0]
+        ss["last_indexkeywords"] = ss["dataframekeywords"].shape[0] - 1
 
         keywords_index = list(ss["dataframekeywords"].index)
         lowproba_maxcost = df.loc[~df.index.isin(list(keywords_index))]
@@ -62,6 +62,16 @@ def tree_functions(
         ss["last_indexexpensive"] = ss["dataframeexpensive"].shape[0] - 1
         ss["dataframelow"] = lowproba
         ss["last_indexlow"] = ss["dataframelow"].shape[0] - 1
+        ss["indexlabelexpensive"] = [
+            False for _ in range(ss["dataframeexpensive"].shape[0])
+        ]
+        ss["indexlabellow"] = [False for _ in range(ss["dataframelow"].shape[0])]
+        ss["indexlabelkeywords"] = [
+            False for _ in range(ss["dataframekeywords"].shape[0])
+        ]
+        ss["indexlabel_templow"] = [" "] * ss["dataframekeywords"].shape[0]
+        ss["indexlabel_tempexpensive"] = [" "] * ss["dataframekeywords"].shape[0]
+        ss["indexlabel_tempkeywords"] = [" "] * ss["dataframekeywords"].shape[0]
 
         # this is very important because the function will not be execute again since
         # the user submit another query

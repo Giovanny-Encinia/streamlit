@@ -191,3 +191,68 @@ def load_data(query: str, prod: bool = False) -> pd.DataFrame:
     data = cur.fetchall()
     st.session_state["is_ready"] = False
     return pd.DataFrame(data, columns=df_headers["name"])
+
+
+def load_states():
+    if "LABELS" not in ss:
+        ss["LABELS"] = read_load_json("src/json/labels.json")
+
+    if "load_keywords_list" not in ss:
+        ss["load_keywords_dict"] = load_keywords()
+
+    if "COLUMNS_FRONTEND" not in ss:
+        ss["COLUMNS_FRONTEND"] = [
+            "Labeled",
+            "Label",
+            "PUR_PO_TEXT",
+            "PUR_COUNTRY",
+            "PUR_PO_NUM",
+            "PUR_PO_DOC_TYPE",
+            "PUR_PO_MATDOC",
+            "PUR_C_COST_TYPE",
+            "PUR_PO_ITEM",
+            "PUR_PO_IT_MATDOC",
+            "PUR_ADD_COST_TYPE",
+            "PUR_VENDOR_NAME",
+            "PUR_AMOUNT_USD",
+            "PUR_PO_UOM",
+            "PUR_LINE_DESC_PREDICTED",
+            "PUR_LINE_DESC_PROBABILITY",
+            "NIVEL1_PREDICTED",
+            "NIVEL1_PROBABILITY",
+            "NIVEL2_PREDICTED",
+            "NIVEL2_PROBABILITY",
+            "NIVEL3_PREDICTED",
+            "NIVEL3_PROBABILITY",
+            "NIVEL4_PREDICTED",
+            "NIVEL4_PROBABILITY",
+        ]
+    if "columns_record" not in ss:
+        ss["columns_record"] = [
+            "FK_ID",
+            "DATETIME",
+            "PUR_POSTING_DATE_y",
+            "USER",
+            "ACTIVE_LEARNING",
+            "PUR_PO_TEXT",
+            "PUR_COUNTRY",
+            "PUR_PO_NUM",
+            "PUR_PO_ITEM",
+            "PUR_PO_DOC_TYPE",
+            "PUR_PO_MATDOC",
+            "PUR_PO_IT_MATDOC",
+            "PUR_C_COST_TYPE",
+            "PUR_ADD_COST_TYPE",
+            "PUR_LINE_DESC_BI_PREDICTED",
+            "PUR_LINE_DESC_BI_PROBABILITY",
+            "PUR_LINE_DESC_PREDICTED",
+            "PUR_LINE_DESC_PROBABILITY",
+            "NIVEL1_PREDICTED",
+            "NIVEL1_PROBABILITY",
+            "NIVEL2_PREDICTED",
+            "NIVEL2_PROBABILITY",
+            "NIVEL3_PREDICTED",
+            "NIVEL3_PROBABILITY",
+            "NIVEL4_PREDICTED",
+            "NIVEL4_PROBABILITY",
+        ]
